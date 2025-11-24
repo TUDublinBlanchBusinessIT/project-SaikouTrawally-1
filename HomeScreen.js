@@ -26,15 +26,31 @@ export default function HomeScreen({ navigation }) {
   // Empty state
   if (matches.length === 0) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>No live matches right now.</Text>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "#fafafa",
+        }}
+      >
+        <Text style={{ fontSize: 16, color: "#666" }}>
+          No live matches right now.
+        </Text>
       </View>
     );
   }
 
   return (
-    <View style={{ flex: 1, padding: 18, backgroundColor: "#fafafa" }}>
-      <Text style={{ fontSize: 22, fontWeight: "700", marginBottom: 10 }}>
+    <View style={{ flex: 1, paddingHorizontal: 20, paddingTop: 25, backgroundColor: "#fafafa" }}>
+      <Text
+        style={{
+          fontSize: 24,
+          fontWeight: "700",
+          marginBottom: 16,
+          color: "#111",
+        }}
+      >
         Live Matches
       </Text>
 
