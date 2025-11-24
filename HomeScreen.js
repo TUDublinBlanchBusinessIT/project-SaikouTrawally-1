@@ -5,26 +5,23 @@ import MatchCard from "../components/MatchCard";
 
 export default function HomeScreen({ navigation }) {
   const [matches, setMatches] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
-      const data = await fetchLiveMatches();
-      setMatches(data);
+      try {
+        const data = await fetchLiveMatches();
+        setMatches(data);
+      } catch (error) {
+        console.error("Error loading matches:", error);
+        setMatches([]);
+      }
+      setLoading(false);
     })();
   }, []);
 
-  // Loading state
-  if (matches === null) {
-    return (
-      <ActivityIndicator
-        size="large"
-        style={{ flex: 1, justifyContent: "center" }}
-      />
-    );
-  }
-
-  // Empty state
-  if (matches.length === 0) {
+  // 🔵 Improved Loading Screen
+  if (loading) {
     return (
       <View
         style={{
@@ -34,8 +31,28 @@ export default function HomeScreen({ navigation }) {
           backgroundColor: "#fafafa",
         }}
       >
-        <Text style={{ fontSize: 16, color: "#666" }}>
-          No live matches right now.
+        <ActivityIndicator size="large" color="#0066FF" />
+        <Text style={{ marginTop: 12, color: "#666" }}>Loading matches...</Text>
+      </View>
+    );
+  }
+
+  // 🟡 Improved Empty State
+  if (!matches || matches.length === 0) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "#fafafa",
+        }}
+      >
+        <Text style={{ fontSize: 18, fontWeight: "600", color: "#444" }}>
+          No Matches Right Now
+        </Text>
+        <Text style={{ marginTop: 6, fontSize: 14, color: "#666" }}>
+          Check back later or explore Fixtures!
         </Text>
       </View>
     );
