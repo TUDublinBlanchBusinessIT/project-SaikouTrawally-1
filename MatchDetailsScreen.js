@@ -1,21 +1,27 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+// MatchDetailsScreen.js
+import React, { useState } from 'react';
+import { View, Text, Button } from 'react-native';
+import { matches } from './mock';
 
 export default function MatchDetailsScreen({ route }) {
-  const { fixture } = route.params;
+  const { matchId } = route.params;
+  const match = matches.find(m => m.id === matchId);
+
+  const [isFav, setIsFav] = useState(false);
 
   return (
-    <View style={{ flex: 1, padding: 20 }}>
-      <Text style={{ fontSize: 22 }}>Match Details</Text>
-
-      <Text style={{ marginTop: 15, fontSize: 18 }}>
-        {fixture.home} vs {fixture.away}
+    <View style={{ flex: 1, padding: 16 }}>
+      <Text style={{ fontSize: 22, fontWeight: '700' }}>
+        {match.home} vs {match.away}
       </Text>
 
-      <Text style={{ marginTop: 10 }}>
-        Kickoff: 17:30  
-        Stadium: Example Arena  
-      </Text>
+      <Text>Date: {new Date(match.date).toLocaleString()}</Text>
+
+      <Button
+        title={isFav ? "Added to Favourites" : "Add to Favourites"}
+        onPress={() => setIsFav(true)}
+        color={isFav ? "green" : "blue"}
+      />
     </View>
   );
 }
