@@ -1,36 +1,56 @@
-// App.js
+// App.js (after commit 9)
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import HomeScreen from './HomeScreen';
-import FixturesScreen from './FixturesScreen';
-import MatchDetailsScreen from './MatchDetailsScreen';
-import FavouritesScreen from './FavouritesScreen';
-import SettingsScreen from './SettingsScreen';
+import HomeScreen from './screens/HomeScreen';
+import FixturesScreen from './screens/FixturesScreen';
+import MatchDetailsScreen from './screens/MatchDetailsScreen';
+import FavouritesScreen from './screens/FavouritesScreen';
+import SettingsScreen from './screens/SettingsScreen';
 
 const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
+const Tabs = createBottomTabNavigator();
 
-function Tabs() {
+// --- Bottom Tabs ---
+function MainTabs() {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Fixtures" component={FixturesScreen} />
-      <Tab.Screen name="Favourites" component={FavouritesScreen} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
-    </Tab.Navigator>
+    <Tabs.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: '#1e90ff',
+        tabBarInactiveTintColor: '#999',
+      }}
+    >
+      <Tabs.Screen name="Home" component={HomeScreen} />
+      <Tabs.Screen name="Fixtures" component={FixturesScreen} />
+      <Tabs.Screen name="Favourites" component={FavouritesScreen} />
+      <Tabs.Screen name="Settings" component={SettingsScreen} />
+    </Tabs.Navigator>
   );
 }
 
+// --- Root App Navigation ---
 export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Main" component={Tabs} options={{ headerShown: false }} />
-        <Stack.Screen name="MatchDetails" component={MatchDetailsScreen} />
+        {/* Main tabs */}
+        <Stack.Screen
+          name="Main"
+          component={MainTabs}
+          options={{ headerShown: false }}
+        />
+
+        {/* Other screens */}
+        <Stack.Screen
+          name="MatchDetails"
+          component={MatchDetailsScreen}
+          options={{ title: "Match Details" }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
+
