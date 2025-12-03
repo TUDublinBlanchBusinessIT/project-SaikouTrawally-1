@@ -1,6 +1,6 @@
 {
   "license": "0BSD",
-  "main": "index.js",
+  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -8,14 +8,18 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo/vector-icons": "^15.0.3",
+    "@react-navigation/bottom-tabs": "^7.8.11",
+    "@react-navigation/native": "*",
+    "@react-navigation/stack": "*",
     "expo": "~54.0.25",
     "expo-status-bar": "~3.0.8",
+    "firebase": "^12.6.0",
     "react": "19.1.0",
     "react-native": "0.81.5",
     "react-native-paper": "4.9.2",
-    "@expo/vector-icons": "^15.0.3",
-    "@react-navigation/native": "*",
-    "@react-navigation/stack": "*"
+    "react-native-safe-area-context": "~5.6.0",
+    "react-native-screens": "~4.16.0"
   },
   "private": true
 }
