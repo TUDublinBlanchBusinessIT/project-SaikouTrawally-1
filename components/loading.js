@@ -1,4 +1,4 @@
-// loading.js
+// components/loading.js
 import React from 'react';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
 
@@ -11,5 +11,9 @@ export default function Loading() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

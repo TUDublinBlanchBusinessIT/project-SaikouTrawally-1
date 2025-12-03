@@ -1,60 +1,46 @@
 // Screens/FixturesScreen.js
-import React, { useState } from 'react';
-import { View, FlatList, Button, Alert, TextInput, StyleSheet } from 'react-native';
-import { collection, addDoc } from 'firebase/firestore';
-import { db } from '../firebase';
-import MatchCard from './MatchCard';
-import matches from '../mock';  // adjust if named differently
+import React from 'react';
+import { View, Text, FlatList, StyleSheet } from 'react-native';
+import MatchCard from '../components/MatchCard';
 
-export default function FixturesScreen() {
-  const [prediction, setPrediction] = useState('');
+// simple mock data for now
+const matches = [
+  {
+    id: '1',
+    homeTeam: 'Arsenal',
+    awayTeam: 'Chelsea',
+    date: '2025-01-10',
+    time: '19:45',
+    venue: 'Emirates Stadium',
+    competition: 'Premier League',
+  },
+  {
+    id: '2',
+    homeTeam: 'Liverpool',
+    awayTeam: 'Man City',
+    date: '2025-01-12',
+    time: '16:30',
+    venue: 'Anfield',
+    competition: 'Premier League',
+  },
+];
 
-  const handleFavourite = async (match) => {
-    try {
-      if (!prediction) {
-        Alert.alert('Enter a prediction first', 'Example: 2-1');
-        return;
-      }
-
-      await addDoc(collection(db, 'favourites'), {
-        homeTeam: match.homeTeam,
-        awayTeam: match.awayTeam,
-        date: match.date,
-        competition: match.competition || '',
-        prediction: prediction,
-        createdAt: new Date().toISOString()
-      });
-
-      Alert.alert('Saved!', 'Match added to favourites with prediction.');
-      setPrediction('');
-    } catch (error) {
-      console.log('Error saving favourite:', error);
-      Alert.alert('Error', 'Could not save favourite.');
-    }
-  };
-
+export default function FixturesScreen({ navigation }) {
   const renderItem = ({ item }) => (
-    <View style={styles.itemContainer}>
-      <MatchCard match={item} />
-
-      <TextInput
-        style={styles.input}
-        placeholder="Enter prediction e.g. 2-1"
-        value={prediction}
-        onChangeText={setPrediction}
-      />
-
-      <Button title="Save to Favourites" onPress={() => handleFavourite(item)} />
-    </View>
+    <MatchCard
+      match={item}
+      onPress={() => navigation.navigate('MatchDetails', { match: item })}
+    />
   );
 
   return (
     <View style={styles.container}>
+      <Text style={styles.header}>Upcoming Fixtures</Text>
       <FlatList
         data={matches}
-        keyExtractor={(item, index) => item.id?.toString() || index.toString()}
+        keyExtractor={(item) => item.id}
         renderItem={renderItem}
-        contentContainerStyle={{ paddingBottom: 20 }}
+        contentContainerStyle={styles.list}
       />
     </View>
   );
@@ -63,17 +49,17 @@ export default function FixturesScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    paddingTop: 16,
   },
-  itemContainer: {
-    marginBottom: 20,
+  header: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    paddingHorizontal: 16,
+    marginBottom: 8,
   },
-  input: {
-    borderWidth: 1,
-    borderRadius: 6,
-    padding: 10,
-    marginVertical: 8
-  }
+  list: {
+    paddingBottom: 16,
+  },
 });
 
 
