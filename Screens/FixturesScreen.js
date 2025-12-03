@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { View, FlatList, Button, Alert, TextInput, StyleSheet } from 'react-native';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../firebase';
-import MatchCard from '../components/MatchCard';
+import MatchCard from './MatchCard';
 import matches from '../mock';  // adjust if named differently
 
 export default function FixturesScreen() {
