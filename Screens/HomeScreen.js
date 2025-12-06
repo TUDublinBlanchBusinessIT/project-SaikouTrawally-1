@@ -1,23 +1,31 @@
-// Screens/HomeScreen.js
 import React from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button, Image } from 'react-native';
+import { colors, typography } from '../theme';
 
 export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome to Whatscore</Text>
-      <Text style={styles.subtitle}>Check fixtures, favourites and more.</Text>
+      <Image source={require('../assets/whatscore.png')} style={styles.logo} />
+      <Text style={styles.title}>Whatscore</Text>
+      <Text style={styles.subtitle}>
+        Track fixtures, favourites and match details in one place.
+      </Text>
 
       <View style={styles.buttons}>
-        <Button
-          title="View Fixtures"
-          onPress={() => navigation.navigate('Fixtures')}
-        />
-        <View style={{ height: 12 }} />
-        <Button
-          title="Go to Favourites"
-          onPress={() => navigation.navigate('Favourites')}
-        />
+        <View style={styles.buttonWrapper}>
+          <Button
+            title="View Fixtures"
+            color={colors.primary}
+            onPress={() => navigation.navigate('Fixtures')}
+          />
+        </View>
+        <View style={styles.buttonWrapper}>
+          <Button
+            title="View Favourites"
+            color={colors.accent}
+            onPress={() => navigation.navigate('Favourites')}
+          />
+        </View>
       </View>
     </View>
   );
@@ -26,22 +34,33 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.background,
     padding: 16,
     justifyContent: 'center',
     alignItems: 'center',
   },
+  logo: {
+    width: 100,
+    height: 100,
+    resizeMode: 'contain',
+    marginBottom: 20,
+  },
   title: {
-    fontSize: 24,
+    fontSize: typography.header,
     fontWeight: 'bold',
-    marginBottom: 12,
+    color: colors.text,
+    marginBottom: 8,
   },
   subtitle: {
-    fontSize: 16,
-    color: '#555',
+    fontSize: typography.body,
+    color: colors.muted,
     marginBottom: 24,
     textAlign: 'center',
   },
   buttons: {
     width: '80%',
+  },
+  buttonWrapper: {
+    marginBottom: 12,
   },
 });

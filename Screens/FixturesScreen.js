@@ -1,9 +1,8 @@
-// Screens/FixturesScreen.js
 import React from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import MatchCard from '../components/MatchCard';
+import { colors, typography } from '../theme';
 
-// simple mock data for now
 const matches = [
   {
     id: '1',
@@ -49,11 +48,13 @@ export default function FixturesScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.background,
     paddingTop: 16,
   },
   header: {
-    fontSize: 20,
+    fontSize: typography.subheader,
     fontWeight: 'bold',
+    color: colors.text,
     paddingHorizontal: 16,
     marginBottom: 8,
   },
@@ -61,6 +62,4 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
   },
 });
-
-
 

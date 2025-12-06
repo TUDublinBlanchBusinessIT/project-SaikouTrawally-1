@@ -1,43 +1,55 @@
-// Screens/MatchDetailsScreen.js
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { colors, typography } from '../theme';
 
-export default function MatchDetailsScreen({ route }) {
-  const { match } = route.params || {};
-
+export default function MatchCard({ match, onPress }) {
   if (!match) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.title}>No match selected</Text>
-      </View>
-    );
+    match = {
+      homeTeam: 'Team A',
+      awayTeam: 'Team B',
+      date: '2025-01-01',
+      time: '19:45',
+      venue: 'Stadium',
+      competition: 'League',
+    };
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>
+    <TouchableOpacity onPress={onPress} style={styles.card}>
+      <Text style={styles.competition}>{match.competition}</Text>
+      <Text style={styles.teams}>
         {match.homeTeam} vs {match.awayTeam}
       </Text>
-      <Text style={styles.info}>Date: {match.date}</Text>
-      <Text style={styles.info}>Time: {match.time}</Text>
-      <Text style={styles.info}>Venue: {match.venue}</Text>
-      <Text style={styles.info}>Competition: {match.competition}</Text>
-    </View>
+      <Text style={styles.info}>{match.date} • {match.time}</Text>
+      <Text style={styles.info}>{match.venue}</Text>
+    </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
+  card: {
+    backgroundColor: colors.card,
+    borderRadius: 12,
+    padding: 12,
+    marginHorizontal: 16,
+    marginVertical: 8,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
-  title: {
-    fontSize: 22,
+  competition: {
+    fontSize: typography.small,
+    color: colors.muted,
+    marginBottom: 4,
+    textTransform: 'uppercase',
+  },
+  teams: {
+    fontSize: typography.body,
     fontWeight: 'bold',
-    marginBottom: 12,
+    color: colors.text,
+    marginBottom: 4,
   },
   info: {
-    fontSize: 16,
-    marginBottom: 6,
+    fontSize: typography.small,
+    color: colors.muted,
   },
 });
