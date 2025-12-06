@@ -27,35 +27,48 @@ const navTheme = {
     border: colors.border,
   },
 };
-
 function MainTabs() {
   return (
     <Tabs.Navigator
-      screenOptions={({ route }) => ({
+      screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: colors.accent,
-        tabBarInactiveTintColor: colors.muted,
+
+        // --- Colours ---
+        tabBarActiveTintColor: '#FFD700',       // yellow when selected
+        tabBarInactiveTintColor: '#888',        // grey when inactive
+
+        // --- Move text lower ---
+        tabBarLabelStyle: {
+          marginBottom: 4,                       // adjust label position
+          fontSize: 12,
+        },
+
         tabBarStyle: {
-          backgroundColor: colors.card,
-          borderTopColor: colors.border,
+          backgroundColor: '#0f1218',
+          borderTopColor: '#222',
         },
-        tabBarIcon: ({ color, size }) => {
-          let iconName;
-
-          if (route.name === 'Home') iconName = 'home-outline';
-          else if (route.name === 'Fixtures') iconName = 'calendar-outline';
-          else if (route.name === 'Favourites') iconName = 'star-outline';
-          else if (route.name === 'Settings') iconName = 'settings-outline';
-          else iconName = 'help-circle-outline';
-
-          return <Ionicons name={iconName} size={size} color={color} />;
-        },
-      })}
+      }}
     >
       <Tabs.Screen name="Home" component={HomeScreen} />
-      <Tabs.Screen name="Fixtures" component={FixturesScreen} />
+
+      <Tabs.Screen 
+        name="Fixtures" 
+        component={FixturesScreen}
+        options={{
+          tabBarLabelStyle: { color: '#ffffff', marginBottom: 4 }, // white text
+        }}
+      />
+
       <Tabs.Screen name="Favourites" component={FavouritesScreen} />
-      <Tabs.Screen name="Settings" component={SettingsScreen} />
+
+      <Tabs.Screen 
+        name="Settings" 
+        component={SettingsScreen}
+        options={{
+          tabBarLabelStyle: { color: '#ffffff', marginBottom: 4 }, // white text
+        }}
+      />
+
       <Tabs.Screen name="What" component={WhatScreen} />
     </Tabs.Navigator>
   );
