@@ -33,43 +33,55 @@ function MainTabs() {
       screenOptions={{
         headerShown: false,
 
-        // --- Colours ---
-        tabBarActiveTintColor: '#FFD700',       // yellow when selected
-        tabBarInactiveTintColor: '#888',        // grey when inactive
-
-        // --- Move text lower ---
-        tabBarLabelStyle: {
-          marginBottom: 4,                       // adjust label position
-          fontSize: 12,
-        },
-
         tabBarStyle: {
           backgroundColor: '#0f1218',
           borderTopColor: '#222',
         },
+
+        // global label spacing
+        tabBarLabelStyle: {
+          marginBottom: 6,   // moves text LOWER
+          fontSize: 12,
+        },
+
+        tabBarActiveTintColor: '#FFD700',   // yellow active
+        tabBarInactiveTintColor: '#888',    // grey inactive
       }}
     >
-      <Tabs.Screen name="Home" component={HomeScreen} />
+
+      <Tabs.Screen 
+        name="Home" 
+        component={HomeScreen}
+      />
 
       <Tabs.Screen 
         name="Fixtures" 
         component={FixturesScreen}
         options={{
-          tabBarLabelStyle: { color: '#ffffff', marginBottom: 4 }, // white text
+          tabBarActiveTintColor: '#FFFFFF',     // white when selected
+          tabBarInactiveTintColor: '#FFFFFF99', // faded white when not selected
         }}
       />
 
-      <Tabs.Screen name="Favourites" component={FavouritesScreen} />
+      <Tabs.Screen 
+        name="Favourites" 
+        component={FavouritesScreen}
+      />
 
       <Tabs.Screen 
         name="Settings" 
         component={SettingsScreen}
         options={{
-          tabBarLabelStyle: { color: '#ffffff', marginBottom: 4 }, // white text
+          tabBarActiveTintColor: '#FFFFFF',     
+          tabBarInactiveTintColor: '#FFFFFF99',
         }}
       />
 
-      <Tabs.Screen name="What" component={WhatScreen} />
+      <Tabs.Screen 
+        name="What" 
+        component={WhatScreen}
+      />
+
     </Tabs.Navigator>
   );
 }
