@@ -1,3 +1,4 @@
+// Screens/HomeScreen.js
 import React from 'react';
 import { View, Text, StyleSheet, Button, Image } from 'react-native';
 import { colors, typography } from '../theme';
@@ -6,6 +7,7 @@ export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Image source={require('../assets/whatscore.png')} style={styles.logo} />
+
       <Text style={styles.title}>Whatscore</Text>
       <Text style={styles.subtitle}>
         Track fixtures, favourites and match details in one place.
@@ -19,6 +21,7 @@ export default function HomeScreen({ navigation }) {
             onPress={() => navigation.navigate('Fixtures')}
           />
         </View>
+
         <View style={styles.buttonWrapper}>
           <Button
             title="View Favourites"
@@ -40,27 +43,27 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    width: 100,
-    height: 100,
+    width: 110,
+    height: 110,
     resizeMode: 'contain',
-    marginBottom: 20,
+    marginBottom: 22,
   },
   title: {
     fontSize: typography.header,
     fontWeight: 'bold',
-    color: colors.text,
-    marginBottom: 8,
+    color: colors.text,   // FIXED
+    marginBottom: 10,
   },
   subtitle: {
     fontSize: typography.body,
-    color: colors.muted,
-    marginBottom: 24,
+    color: colors.muted,  // FIXED
+    marginBottom: 26,
     textAlign: 'center',
   },
   buttons: {
     width: '80%',
   },
   buttonWrapper: {
-    marginBottom: 12,
+    marginBottom: 14,
   },
 });
