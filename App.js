@@ -1,5 +1,6 @@
 // App.js
 import React from 'react';
+import { Text } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -27,10 +28,11 @@ const navTheme = {
     border: colors.border,
   },
 };
+
 function MainTabs() {
   return (
     <Tabs.Navigator
-      screenOptions={{
+      screenOptions={({ route }) => ({
         headerShown: false,
 
         tabBarStyle: {
@@ -38,48 +40,101 @@ function MainTabs() {
           borderTopColor: '#222',
         },
 
-        // global label spacing
+        tabBarActiveTintColor: '#FFD700',
+        tabBarInactiveTintColor: '#888',
+
         tabBarLabelStyle: {
-          marginBottom: 6,   // moves text LOWER
           fontSize: 12,
+          marginBottom: 4,
         },
 
-        tabBarActiveTintColor: '#FFD700',   // yellow active
-        tabBarInactiveTintColor: '#888',    // grey inactive
-      }}
+        tabBarIcon: ({ color }) => {
+          let iconName;
+
+          switch (route.name) {
+            case 'Home':
+              iconName = 'home-outline';
+              break;
+            case 'Fixtures':
+              iconName = 'calendar-outline';
+              break;
+            case 'Favourites':
+              iconName = 'star-outline';
+              break;
+            case 'Settings':
+              iconName = 'settings-outline';
+              break;
+            case 'What':
+              iconName = 'help-circle-outline';
+              break;
+          }
+
+          return <Ionicons name={iconName} size={22} color={color} />;
+        },
+      })}
     >
 
+      {/* HOME */}
       <Tabs.Screen 
         name="Home" 
         component={HomeScreen}
       />
 
+      {/* FIXTURES — WHITE LABEL */}
       <Tabs.Screen 
         name="Fixtures" 
         component={FixturesScreen}
         options={{
-          tabBarActiveTintColor: '#FFFFFF',     // white when selected
-          tabBarInactiveTintColor: '#FFFFFF99', // faded white when not selected
+          tabBarLabel: () => (
+            <Text style={{ 
+              color: '#FFFFFF',     // WHITE
+              fontSize: 12,
+              marginBottom: 4 
+            }}>
+              Fixtures
+            </Text>
+          )
         }}
       />
 
+      {/* FAVOURITES */}
       <Tabs.Screen 
         name="Favourites" 
         component={FavouritesScreen}
       />
 
+      {/* SETTINGS — WHITE LABEL */}
       <Tabs.Screen 
         name="Settings" 
         component={SettingsScreen}
         options={{
-          tabBarActiveTintColor: '#FFFFFF',     
-          tabBarInactiveTintColor: '#FFFFFF99',
+          tabBarLabel: () => (
+            <Text style={{ 
+              color: '#FFFFFF',     // WHITE
+              fontSize: 12,
+              marginBottom: 4 
+            }}>
+              Settings
+            </Text>
+          )
         }}
       />
 
+      {/* WHAT — WHITE LABEL */}
       <Tabs.Screen 
         name="What" 
         component={WhatScreen}
+        options={{
+          tabBarLabel: () => (
+            <Text style={{ 
+              color: '#FFFFFF',     // WHITE
+              fontSize: 12,
+              marginBottom: 4 
+            }}>
+              What
+            </Text>
+          )
+        }}
       />
 
     </Tabs.Navigator>
@@ -95,6 +150,7 @@ export default function App() {
           component={MainTabs}
           options={{ headerShown: false }}
         />
+
         <Stack.Screen
           name="MatchDetails"
           component={MatchDetailsScreen}

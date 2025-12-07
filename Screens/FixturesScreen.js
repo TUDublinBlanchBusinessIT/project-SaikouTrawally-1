@@ -1,65 +1,43 @@
-import React from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+// Screens/FixturesScreen.js
+import React, { useEffect, useState } from 'react';
+import { View, Text, FlatList } from 'react-native';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../firebase';
 import MatchCard from '../components/MatchCard';
-import { colors, typography } from '../theme';
 
-const matches = [
-  {
-    id: '1',
-    homeTeam: 'Arsenal',
-    awayTeam: 'Chelsea',
-    date: '2025-01-10',
-    time: '19:45',
-    venue: 'Emirates Stadium',
-    competition: 'Premier League',
-  },
-  {
-    id: '2',
-    homeTeam: 'Liverpool',
-    awayTeam: 'Man City',
-    date: '2025-01-12',
-    time: '16:30',
-    venue: 'Anfield',
-    competition: 'Premier League',
-  },
-];
+export default function FixturesScreen() {
+  const [matches, setMatches] = useState([]);
 
-export default function FixturesScreen({ navigation }) {
-  const renderItem = ({ item }) => (
-    <MatchCard
-      match={item}
-      onPress={() => navigation.navigate('MatchDetails', { match: item })}
-    />
-  );
+  useEffect(() => {
+    const fetchMatches = async () => {
+      try {
+        const snapshot = await getDocs(collection(db, 'matches'));
+        const data = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setMatches(data);
+      } catch (error) {
+        console.log("🔥 Firestore error:", error);
+      }
+    };
+
+    fetchMatches();
+  }, []);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Upcoming Fixtures</Text>
+    <View style={{ flex: 1, backgroundColor: '#0f1218', padding: 16 }}>
+      <Text style={{ color: 'white', fontSize: 24, marginBottom: 10 }}>
+        Upcoming Fixtures
+      </Text>
+
       <FlatList
         data={matches}
-        keyExtractor={(item) => item.id}
-        renderItem={renderItem}
-        contentContainerStyle={styles.list}
+        keyExtractor={item => item.id}
+        renderItem={({ item }) => <MatchCard match={item} />}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-    paddingTop: 16,
-  },
-  header: {
-    fontSize: typography.subheader,
-    fontWeight: 'bold',
-    color: colors.text,
-    paddingHorizontal: 16,
-    marginBottom: 8,
-  },
-  list: {
-    paddingBottom: 16,
-  },
-});
 
