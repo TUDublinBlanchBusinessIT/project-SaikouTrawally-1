@@ -1,43 +1,63 @@
-// Screens/FixturesScreen.js
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList } from 'react-native';
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../firebase';
-import MatchCard from '../components/MatchCard';
+import React from 'react';
+import { View, Text, FlatList, StyleSheet } from 'react-native';
+import fixtures from '../mockFixtures';
 
 export default function FixturesScreen() {
-  const [matches, setMatches] = useState([]);
-
-  useEffect(() => {
-    const fetchMatches = async () => {
-      try {
-        const snapshot = await getDocs(collection(db, 'matches'));
-        const data = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setMatches(data);
-      } catch (error) {
-        console.log("🔥 Firestore error:", error);
-      }
-    };
-
-    fetchMatches();
-  }, []);
-
   return (
-    <View style={{ flex: 1, backgroundColor: '#0f1218', padding: 16 }}>
-      <Text style={{ color: 'white', fontSize: 24, marginBottom: 10 }}>
-        Upcoming Fixtures
-      </Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Upcoming Fixtures</Text>
 
       <FlatList
-        data={matches}
-        keyExtractor={item => item.id}
-        renderItem={({ item }) => <MatchCard match={item} />}
-        showsVerticalScrollIndicator={false}
+        data={fixtures}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View style={styles.card}>
+            <Text style={styles.teams}>{item.home} vs {item.away}</Text>
+            <Text style={styles.details}>{item.league}</Text>
+            <Text style={styles.details}>{item.stadium}</Text>
+            <Text style={styles.datetime}>
+              {item.date} • {item.time}
+            </Text>
+          </View>
+        )}
       />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#000', 
+    padding: 16,
+  },
+  title: {
+    fontSize: 24,
+    color: '#fff',
+    fontWeight: '600',
+    marginBottom: 16,
+  },
+  card: {
+    backgroundColor: '#1a1a1a',
+    padding: 16,
+    borderRadius: 10,
+    marginBottom: 12,
+  },
+  teams: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 6,
+  },
+  details: {
+    color: '#ccc',
+    fontSize: 14,
+  },
+  datetime: {
+    color: '#1e90ff',
+    marginTop: 8,
+    fontWeight: '500',
+  },
+});
+
 

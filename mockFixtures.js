@@ -25,5 +25,14 @@ export default [
     time: "20:00",
     league: "Premier League",
     stadium: "Tottenham Hotspur Stadium"
+  },
+  {
+    id: "4",
+    home: "Newcastle",
+    away: "Aston Villa",
+    date: "2025-01-16",
+    time: "18:30",
+    league: "Premier League",
+    stadium: "St James' Park"
   }
 ];
