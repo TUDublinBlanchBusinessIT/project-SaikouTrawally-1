@@ -105,7 +105,7 @@ function MainTabs() {
 
       {/* SETTINGS — WHITE LABEL */}
       <Tabs.Screen 
-        name="Settings" 
+        name="Favourites" 
         component={SettingsScreen}
         options={{
           tabBarLabel: () => (
