@@ -9,8 +9,11 @@ import { Ionicons } from '@expo/vector-icons';
 import HomeScreen from './Screens/HomeScreen';
 import FixturesScreen from './Screens/FixturesScreen';
 import MatchDetailsScreen from './Screens/MatchDetailsScreen';
-import FavouritesScreen from './Screens/FavouritesScreen';
-import SettingsScreen from './Screens/SettingsScreen';
+
+// IMPORTANT: your renamed files
+import newFavouritesScreen from './Screens/newFavouritesScreen'; 
+import newSettingsScreen from './Screens/newSettingsScreen';
+
 import WhatScreen from './Screens/WhatScreen';
 import { colors } from './theme';
 
@@ -34,15 +37,12 @@ function MainTabs() {
     <Tabs.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
-
         tabBarStyle: {
           backgroundColor: '#0f1218',
           borderTopColor: '#222',
         },
-
         tabBarActiveTintColor: '#FFD700',
         tabBarInactiveTintColor: '#888',
-
         tabBarLabelStyle: {
           fontSize: 12,
           marginBottom: 4,
@@ -50,87 +50,60 @@ function MainTabs() {
 
         tabBarIcon: ({ color }) => {
           let iconName;
-
           switch (route.name) {
-            case 'Home':
-              iconName = 'home-outline';
-              break;
-            case 'Fixtures':
-              iconName = 'calendar-outline';
-              break;
-            case 'Favourites':
-              iconName = 'star-outline';
-              break;
-            case 'Settings':
-              iconName = 'settings-outline';
-              break;
-            case 'What':
-              iconName = 'help-circle-outline';
-              break;
+            case 'Home': iconName = 'home-outline'; break;
+            case 'Fixtures': iconName = 'calendar-outline'; break;
+            case 'Favourites': iconName = 'star-outline'; break;
+            case 'Settings': iconName = 'settings-outline'; break;
+            case 'What': iconName = 'help-circle-outline'; break;
           }
-
           return <Ionicons name={iconName} size={22} color={color} />;
         },
       })}
     >
 
       {/* HOME */}
-      <Tabs.Screen 
-        name="Home" 
-        component={HomeScreen}
-      />
+      <Tabs.Screen name="Home" component={HomeScreen} />
 
-      {/* FIXTURES — WHITE LABEL */}
+      {/* FIXTURES */}
       <Tabs.Screen 
         name="Fixtures" 
         component={FixturesScreen}
         options={{
           tabBarLabel: () => (
-            <Text style={{ 
-              color: '#FFFFFF',     // WHITE
-              fontSize: 12,
-              marginBottom: 4 
-            }}>
+            <Text style={{ color: '#FFFFFF', fontSize: 12, marginBottom: 4 }}>
               Fixtures
             </Text>
           )
         }}
       />
 
-      {/* FAVOURITES */}
+      {/* FAVOURITES TAB — SHOWS newFavouritesScreen */}
       <Tabs.Screen 
         name="Favourites" 
-        component={FavouritesScreen}
+        component={newFavouritesScreen}
       />
 
-      {/* SETTINGS — WHITE LABEL */}
+      {/* SETTINGS TAB — SHOWS newSettingsScreen */}
       <Tabs.Screen 
-        name="Favourites" 
-        component={SettingsScreen}
+        name="Settings" 
+        component={newSettingsScreen}
         options={{
           tabBarLabel: () => (
-            <Text style={{ 
-              color: '#FFFFFF',     // WHITE
-              fontSize: 12,
-              marginBottom: 4 
-            }}>
+            <Text style={{ color: '#FFFFFF', fontSize: 12, marginBottom: 4 }}>
               Settings
             </Text>
           )
         }}
       />
 
-      {/* WHAT — WHITE LABEL */}
+      {/* WHAT SCREEN */}
       <Tabs.Screen 
         name="What" 
         component={WhatScreen}
         options={{
           tabBarLabel: () => (
-            <Text style={{ 
-              color: '#FFFFFF',     // WHITE
-              fontSize: 12,
-              marginBottom: 4 
-            }}>
+            <Text style={{ color: '#FFFFFF', fontSize: 12, marginBottom: 4 }}>
               What
             </Text>
           )
