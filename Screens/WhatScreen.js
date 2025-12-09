@@ -1,10 +1,12 @@
-// WhatScreen.js
+// Screens/WhatScreen.js
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import { db } from '../firebase';
-import { collection, addDoc, getDocs } from 'firebase/firestore';
+import { collection, addDoc, getDocs, doc, updateDoc } from 'firebase/firestore';
+import { useNavigation } from '@react-navigation/native';
 
 export default function WhatScreen() {
+  const navigation = useNavigation();
   const [tweets, setTweets] = useState([]);
   const [user, setUser] = useState('');
   const [comment, setComment] = useState('');
@@ -13,12 +15,12 @@ export default function WhatScreen() {
   const loadTweets = async () => {
     try {
       const snapshot = await getDocs(collection(db, 'tweets'));
-      const loaded = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
+      const loaded = snapshot.docs.map((docItem) => ({
+        id: docItem.id,
+        ...docItem.data(),
       }));
 
-      // ⭐ Sort newest → oldest
+      // Sort newest → oldest
       setTweets(loaded.sort((a, b) => b.timestamp - a.timestamp));
 
     } catch (error) {
@@ -30,7 +32,7 @@ export default function WhatScreen() {
     loadTweets();
   }, []);
 
-  // Save a new tweet
+  // Add a new tweet
   const submitTweet = async () => {
     if (!user.trim() || !comment.trim()) {
       alert('Please enter your name and a comment.');
@@ -41,7 +43,8 @@ export default function WhatScreen() {
       await addDoc(collection(db, 'tweets'), {
         user: user.trim(),
         comment: comment.trim(),
-        timestamp: Date.now(),   // ⭐ Add timestamp for sorting
+        timestamp: Date.now(),
+        likes: 0, // ⭐ NEW: start likes at 0
       });
 
       setUser('');
@@ -52,17 +55,40 @@ export default function WhatScreen() {
     }
   };
 
+  // ⭐ LIKE FUNCTION
+  const likeTweet = async (id) => {
+    try {
+      const tweet = tweets.find((t) => t.id === id);
+      const docRef = doc(db, 'tweets', id);
+
+      await updateDoc(docRef, {
+        likes: (tweet.likes || 0) + 1,
+      });
+
+      loadTweets(); // refresh list
+    } catch (err) {
+      console.log("Error liking tweet:", err);
+    }
+  };
+
+  // Render each tweet
   const renderTweet = ({ item }) => (
     <View style={styles.tweetCard}>
       <Text style={styles.tweetUser}>{item.user}:</Text>
       <Text style={styles.tweetText}>{item.comment}</Text>
 
-      {/* ⭐ Show the actual timestamp */}
       {item.timestamp && (
         <Text style={styles.timeText}>
           {new Date(item.timestamp).toLocaleString()}
         </Text>
       )}
+
+      {/* ⭐ LIKE BUTTON */}
+      <TouchableOpacity onPress={() => likeTweet(item.id)}>
+        <Text style={styles.likeButton}>👍 Like</Text>
+      </TouchableOpacity>
+
+      <Text style={styles.likesCount}>Likes: {item.likes || 0}</Text>
     </View>
   );
 
@@ -70,7 +96,6 @@ export default function WhatScreen() {
     <View style={styles.container}>
       <Text style={styles.title}>Fan Zone</Text>
 
-      {/* Input fields */}
       <TextInput
         style={styles.input}
         placeholder="Your Name"
@@ -92,7 +117,6 @@ export default function WhatScreen() {
         <Text style={styles.buttonText}>Post Tweet</Text>
       </TouchableOpacity>
 
-      {/* Display tweets */}
       <Text style={styles.subTitle}>Recent Fan Tweets</Text>
 
       <FlatList
@@ -104,60 +128,20 @@ export default function WhatScreen() {
   );
 }
 
+// Styling
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#000',
-    padding: 20,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: 'white',
-    marginBottom: 20,
-  },
-  subTitle: {
-    color: 'white',
-    fontSize: 20,
-    marginTop: 25,
-    marginBottom: 10,
-    fontWeight: '600',
-  },
-  input: {
-    backgroundColor: '#222',
-    borderRadius: 8,
-    padding: 12,
-    color: 'white',
-    marginBottom: 10,
-  },
-  button: {
-    backgroundColor: '#FFD700',
-    padding: 12,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  buttonText: {
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  tweetCard: {
-    backgroundColor: '#1c1c1c',
-    padding: 15,
-    borderRadius: 10,
-    marginBottom: 10,
-  },
-  tweetUser: {
-    fontWeight: 'bold',
-    color: '#FFD700',
-    marginBottom: 5,
-  },
-  tweetText: {
-    color: 'white',
-    marginBottom: 5,
-  },
-  timeText: {
-    color: '#888',
-    fontSize: 12,
-  },
+  container: { flex: 1, backgroundColor: '#000', padding: 20 },
+  title: { fontSize: 28, fontWeight: 'bold', color: 'white', marginBottom: 20 },
+  subTitle: { color: 'white', fontSize: 20, marginTop: 25, marginBottom: 10, fontWeight: '600' },
+  input: { backgroundColor: '#222', borderRadius: 8, padding: 12, color: 'white', marginBottom: 10 },
+  button: { backgroundColor: '#FFD700', padding: 12, borderRadius: 8, alignItems: 'center', marginBottom: 20 },
+  buttonText: { fontWeight: 'bold', fontSize: 16 },
+
+  tweetCard: { backgroundColor: '#1c1c1c', padding: 15, borderRadius: 10, marginBottom: 10 },
+  tweetUser: { fontWeight: 'bold', color: '#FFD700', marginBottom: 5 },
+  tweetText: { color: 'white', marginBottom: 5 },
+  timeText: { color: '#888', fontSize: 12, marginBottom: 8 },
+
+  likeButton: { color: '#FFD700', fontWeight: 'bold', marginTop: 5 },
+  likesCount: { color: 'white', marginTop: 3 },
 });
