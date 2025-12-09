@@ -17,7 +17,10 @@ export default function WhatScreen() {
         id: doc.id,
         ...doc.data(),
       }));
-      setTweets(loaded);
+
+      // ⭐ Sort newest → oldest
+      setTweets(loaded.sort((a, b) => b.timestamp - a.timestamp));
+
     } catch (error) {
       console.log('Error loading tweets:', error);
     }
@@ -38,13 +41,11 @@ export default function WhatScreen() {
       await addDoc(collection(db, 'tweets'), {
         user: user.trim(),
         comment: comment.trim(),
+        timestamp: Date.now(),   // ⭐ Add timestamp for sorting
       });
 
-      // Clear inputs
       setUser('');
       setComment('');
-
-      // Reload tweets
       loadTweets();
     } catch (error) {
       console.log('Error adding tweet:', error);
@@ -55,6 +56,13 @@ export default function WhatScreen() {
     <View style={styles.tweetCard}>
       <Text style={styles.tweetUser}>{item.user}:</Text>
       <Text style={styles.tweetText}>{item.comment}</Text>
+
+      {/* ⭐ Show the actual timestamp */}
+      {item.timestamp && (
+        <Text style={styles.timeText}>
+          {new Date(item.timestamp).toLocaleString()}
+        </Text>
+      )}
     </View>
   );
 
@@ -80,7 +88,6 @@ export default function WhatScreen() {
         onChangeText={setComment}
       />
 
-      {/* Submit button */}
       <TouchableOpacity style={styles.button} onPress={submitTweet}>
         <Text style={styles.buttonText}>Post Tweet</Text>
       </TouchableOpacity>
@@ -147,5 +154,10 @@ const styles = StyleSheet.create({
   },
   tweetText: {
     color: 'white',
+    marginBottom: 5,
+  },
+  timeText: {
+    color: '#888',
+    fontSize: 12,
   },
 });
