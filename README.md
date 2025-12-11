@@ -1,5 +1,13 @@
-For this project, I used AI as a support tool to help me understand concepts more clearly and to overcome technical blockers, rather than as a replacement for my own work. All core decisions, designs, and coding structure were created and implemented by me, but AI was used in the same way a student might use an online tutorials. 
-AI assisted mainly in debugging, syntax correction, and clarifying how specific React Native or Firebase functions work. For example, when I encountered issues connecting my app to Firestore or understanding error messages from Expo, AI helped explain the cause of the errors and provided step-by-step guidance so I could fix them myself. This allowed me to learn the underlying logic instead of being stuck on technical problems for long periods.
+AI helped mainly in debugging, syntax correction, and clarifying how specific React Native or Firebase functions work. For example, when I encountered issues connecting my app to Firestore or understanding error messages from Expo, AI helped explain the cause of the errors and provided step-by-step guidance so I could fix them myself.
+(Example prompt used: “Why is my Firestore addDoc() call failing and how do I debug this error?”)
+This allowed me to learn the underlying logic instead of being stuck on technical problems for long periods.
+
 Additionally, I used AI to help refine wording, UI ideas, and improve the organisation of my code, but all implementation was done manually by me. Any generated code was adapted, rewritten, and customised to fit my own app’s structure and learning goals.
-Firestore structure, logic, and final features were built by me, with AI simply helping me better understand best practices and troubleshoot more efficiently. I believe this enhanced my learning rather than replaced it.
-While AI helped me understand certain concepts and generate example code structures, its use was not perfect and sometimes caused setbacks in the project.
+(Example prompt used: “How can I make my MatchCard component layout cleaner without changing the logic?”)
+
+Overall, AI functioned as a learning assistant, not a creator of the final product. The project’s design, codebase, Firestore structure, logic, and final features were built by me, with AI simply helping me better understand best practices and troubleshoot more efficiently.
+(Example prompt used: “Can you explain how navigation params work between two screens in React Native?”)
+I believe this enhanced my learning rather than replaced it.
+
+It really made the project enjoyable and was a great insight into the creativity and flair that using AI can bring to an assignment.
+(Example prompt used: “What are simple UI improvements I can apply to make my app look more polished?”)
